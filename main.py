@@ -150,8 +150,11 @@ def main():
         print("1) All the wrestlers")
         print("2) Wrestler 27 years old and above ")
         print("3) Wrestler below 27 years old ")
-        print("3) average of the rating")
-        print("4) all Stadium")
+        print("4) average of the rating")
+        print("5) all Stadium")
+        print("6) order in ascending order")
+        print("7) search a wrestler")
+        print("8) search rating of certain wrestler")
         print("10) Quit ")
         choice = int(input())
         # choice += 1 
@@ -161,11 +164,13 @@ def main():
             wrestlers = session.query(Wrestler).all()
             for wrestler in wrestlers:
                 print(wrestler.firstName + ' '+ wrestler.lastName)
+
         elif choice == 2:
             print("****wrestler above 27 years old*****")
             wrestlers = session.query(Wrestler).filter( Wrestler.age >= 27)
             for wrestler in wrestlers:
                 print(wrestler.firstName + ' '+ wrestler.lastName)
+                
         elif choice == 3:
             print("****Wrestler below 27 years old****")
             wrestlers = session.query(Wrestler).filter( Wrestler.age < 27)
@@ -174,17 +179,35 @@ def main():
        
         # Edited
         elif choice == 4:
-            print("****Printing Average****")
+            print("****Printing Average Rating****")
             hello = average_rating = session.query(func.avg(Review.rating)).scalar()
-            print(hello)    
+            print(" AVERAGE RATE IS" + " " +  str(hello))    
 
         # Edited
         elif choice == 5:
+            print("****All the stadium and the countries ****")
             stadiums = session.query(Stadium).all()
             for stadium in stadiums:
                 print(stadium.Title, stadium.country)
-        
 
+        elif choice == 6:
+            list1 = session.query(Review).select(Review.rating)
+            for review in list1:
+                print(list1)
+                
+        elif choice == 7:
+            print ("****Select wresler of choice****")
+            user_input = input("Enter the wrestles wrestler.firstName:")
+            wrestlers = session.query(Wrestler).filter(Wrestler.firstName == user_input)
+            for wrestler in wrestlers:
+              print ("id:", wrestler.id, "Name:", wrestler.firstName, wrestler.lastName, "Age:", wrestler.age, "Gender:", wrestler.gender)
+        
+        elif choice == 8:
+            print ("****Select rating of a wrestler****")
+            user_input = input("Enter the wrestles name:")
+            wrestlers = session.query(Review).filter(Review.wrestler_id == user_input)
+            for review in wrestlers:
+              print("id:", review.id, "rating:", review.rating)  
 
 
 
