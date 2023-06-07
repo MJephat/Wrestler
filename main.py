@@ -1,10 +1,12 @@
-from sqlalchemy import create_engine
+import sqlite3
+from sqlalchemy.sql import func
+from sqlalchemy import create_engine, select
 from sqlalchemy import ForeignKey,Table,Column, Integer, String,CHAR
 from sqlalchemy.orm import relationship, backref, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
-create_engine('sqlite:///Sports.db')
 
+create_engine('sqlite:///Sports.db')
 Base = declarative_base()
 
 
@@ -143,16 +145,50 @@ if __name__ == '__main__':
 def main():
 
     choice = 0
-    while choice !=5:
+    while choice !=10:
         print("Welcome to the SITE!")
         print("1) All the wrestlers")
-        print("2)championship won by a perticular wrestler ")
+        print("2) Wrestler 27 years old and above ")
+        print("3) Wrestler below 27 years old ")
         print("3) average of the rating")
         print("4) all Stadium")
-        print("5) Quit ")
+        print("10) Quit ")
         choice = int(input())
-
         # choice += 1 
+
+        if choice == 1:
+            print("***All wrestlers***")
+            wrestlers = session.query(Wrestler).all()
+            for wrestler in wrestlers:
+                print(wrestler.firstName + ' '+ wrestler.lastName)
+        elif choice == 2:
+            print("****wrestler above 27 years old*****")
+            wrestlers = session.query(Wrestler).filter( Wrestler.age >= 27)
+            for wrestler in wrestlers:
+                print(wrestler.firstName + ' '+ wrestler.lastName)
+        elif choice == 3:
+            print("****Wrestler below 27 years old****")
+            wrestlers = session.query(Wrestler).filter( Wrestler.age < 27)
+            for wrestler in wrestlers:
+                print(wrestler.firstName + ' '+ wrestler.lastName)
+       
+        # Edited
+        elif choice == 4:
+            print("****Printing Average****")
+            hello = average_rating = session.query(func.avg(Review.rating)).scalar()
+            print(hello)    
+
+        # Edited
+        elif choice == 5:
+            stadiums = session.query(Stadium).all()
+            for stadium in stadiums:
+                print(stadium.Title, stadium.country)
+        
+
+
+
+
+
 
 if __name__ == "__main__":
     main()
