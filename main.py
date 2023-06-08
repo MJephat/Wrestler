@@ -155,6 +155,7 @@ def main():
         print("6) order in ascending order")
         print("7) search a wrestler")
         print("8) search rating of certain wrestler")
+        print("9) search by id")
         print("10) Quit ")
         choice = int(input())
         # choice += 1 
@@ -209,7 +210,10 @@ def main():
             for review in wrestlers:
               print("id:", review.id, "rating:", review.rating)  
 
-
+        elif choice == 9:
+            print("*****select by id****")
+            my_user = session.get(Match,6)
+            print(my_user.category)
 
 
 
