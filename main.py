@@ -107,6 +107,7 @@ if __name__ == '__main__':
     wrestler8 = Wrestler(firstName = "Kevin", lastName = "Owen", age= 36, gender = "M")
     wrestler9 = Wrestler(firstName = "Romain", lastName = "Reigns", age = 37, gender = "M")
     wrestler10 = Wrestler(firstName = "Seth", lastName = "Rollins", age = 34, gender = "M")
+    wrestler11 = Wrestler(firstName = "Rey", lastName = " Mysterio", age = 48, gender = "M")
 
     stadium1 = Stadium(Title = "Bell_Centre", country = "Canada")
     stadium2 = Stadium(Title = "AT&T", country = "USA")
@@ -135,7 +136,7 @@ if __name__ == '__main__':
     review5 =  Review(rating = 5,match_id =3, wrestler_id = 10)
 
 
-    session.add_all([wrestler1, wrestler2, wrestler3,wrestler4,wrestler5,wrestler6,wrestler7,wrestler8,wrestler9,wrestler10])
+    session.add_all([wrestler1, wrestler2, wrestler3,wrestler4,wrestler5,wrestler6,wrestler7,wrestler8,wrestler9,wrestler10,wrestler11])
     session.add_all([stadium1,stadium1,stadium2,stadium3,stadium4,stadium5,stadium6])
     session.add_all([championship1,championship2,championship3,championship4,championship5])
     session.add_all([match1, match2, match3, match4, match5,match6])
@@ -157,14 +158,19 @@ def main():
         print("8) search rating of certain wrestler")
         print("9) search by id")
         print("10) Quit ")
+        print("11) add into")
         choice = int(input())
         # choice += 1 
-
+# LIST
         if choice == 1:
             print("***All wrestlers***")
             wrestlers = session.query(Wrestler).all()
             for wrestler in wrestlers:
-                print(wrestler.firstName + ' '+ wrestler.lastName)
+                print([wrestler.firstName + ' '+ wrestler.lastName])
+            # wrestlers_list = session.query(Wrestler).all()
+            # wrestlers_list.append([])
+            # for wrestlers in wrestlers_list:
+            #     print(wrestlers)
 
         elif choice == 2:
             print("****wrestler above 27 years old*****")
@@ -187,21 +193,24 @@ def main():
         # Edited
         elif choice == 5:
             print("****All the stadium and the countries ****")
+            my_dict = {}
             stadiums = session.query(Stadium).all()
             for stadium in stadiums:
-                print(stadium.Title, stadium.country)
+                print("Title:",  stadium.Title, "Country:", stadium.country)
 
         elif choice == 6:
             list1 = session.query(Review).select(Review.rating)
             for review in list1:
                 print(list1)
-                
+
+            # TUPLE
         elif choice == 7:
             print ("****Select wresler of choice****")
-            user_input = input("Enter the wrestles wrestler.firstName:")
-            wrestlers = session.query(Wrestler).filter(Wrestler.firstName == user_input)
+            user_input = input("Enter the wrestler.lastName:")
+            wrestlers = session.query(Wrestler).filter(Wrestler.lastName == user_input)
+           
             for wrestler in wrestlers:
-              print ("id:", wrestler.id, "Name:", wrestler.firstName, wrestler.lastName, "Age:", wrestler.age, "Gender:", wrestler.gender)
+              print (("id:", wrestler.id, "Name:", wrestler.firstName, wrestler.lastName, "Age:", wrestler.age, "Gender:", wrestler.gender))
         
         elif choice == 8:
             print ("****Select rating of a wrestler****")
@@ -214,6 +223,19 @@ def main():
             print("*****select by id****")
             my_user = session.get(Match,6)
             print(my_user.category)
+        elif choice == 10:
+            print("You have left the main Menu")
+
+        # elif choice == 11:
+        #     print("***Add into***")
+        #     sinput = input("Enter the stadium, country:")
+        #     # stadiums = session.query(Stadium).
+        #     stadiums = Stadium(Stadium.Title==sinput, Stadium.country==sinput)
+            
+        #     session.add_all(stadiums)
+        #     # session.add_all( Stadium.Title,Stadium.country)
+        #     session.commit()
+
 
 
 
