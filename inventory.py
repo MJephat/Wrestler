@@ -7,152 +7,153 @@ from sqlalchemy.orm import relationship, backref, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
 # CREATE A NEW ENGINE INSTANCE
-create_engine('sqlite:///Sports.db')
+create_engine('sqlite:///Inventory.db')
 # create class contains a MetaData object where newly defined Table objects are collected.
 Base = declarative_base()
 
 
-# wrestlers' table
-class Wrestler(Base):
+# product's table
+class Product(Base):
     # table name, columns
-    __tablename__ = 'wrestlers'
+    __tablename__ = 'products'
     
     id = Column(Integer(), primary_key=True)
-    firstName = Column(String())
-    lastName = Column(String())
-    age = Column(Integer())
-    gender = Column(CHAR(1))
+    productName = Column(String())
+    description = Column(String())
+    QuantityInStock = Column(Integer())
 
-    reviews = relationship('Review', backref=backref('wrestler'))
+    manufacturer_id = Column(Integer(), ForeignKey('manufacturers.id'))
+    category_id = Column(Integer(), ForeignKey('categories.id'))
+
+    transactions = relationship('Transaction', backref=backref('product'))
+
    
     # __repr__. represent a class's objects as a string. 
     def __repr__(self):
-        return f'Wretler(id={self.id}, ' + \
-            f'firstName={self.firstName}, ' +\
-            f'lastName={self.lastName}, ' +\
-            f'age={self.age}, ' +\
-            f'gender={self}'
+        return f'Product(id={self.id}, ' + \
+            f'productName={self.productName}, ' 
+            
 
-# championship table
-class Stadium(Base):
+# manufacturer's table
+class Manufacturer(Base):
     # table name, columns
-    __tablename__ = 'stadiums'
+    __tablename__ = 'manufacturers'
     
     id = Column(Integer(), primary_key=True)
     Title = Column(String())
-    country = Column(String())
-    championships = relationship('Championship', backref=backref('stadium'))
+    contactPerson = Column(String())
+    
+    products = relationship('Product', backref=backref('manufacturer'))
+    # championships = relationship('Championship', backref=backref('stadium'))
 
 #  represent a class's objects as a string.
     def __repr__(self):
-        return f'Stadium(id={self.id}, ' + \
-            f'Name={self.Name}, ' + \
-            f'country={self.country}'
+        return f'Manufacter(id={self.id}, ' + \
+            f'Title={self.Title}, '
+         
 
-# stadium table
-class Championship(Base):
+# Category's table
+class Category(Base):
     # table name, columns
-    __tablename__ = 'championships'
+    __tablename__ = 'categories'
     
     id = Column(Integer(), primary_key=True)
-    Title = Column(String())
-    # make = Column(String())
-    matches = relationship('Match', backref=backref('championship'))
-    stadium_id = Column(Integer(), ForeignKey('stadiums.id'))
+    categoryName = Column(String())
+    description = Column(String())
+
+    products = relationship('Product', backref=backref('category'))
+
     #  represent a class's objects as a string.
     def __repr__(self):
-        return f'Championship(id={self.id}, ' + \
-            f'Name={self.Title}, ' 
-            # f'country={self.make}'
+        return f'Category(id={self.id}, ' + \
+            f'categoryName={self.categoryName}, ' 
 
-# match table
-class  Match(Base):
+# Transaction table
+class  Transaction(Base):
     # table name, columns
-    __tablename__ = 'matches'
+    __tablename__ = 'transactions'
     
     id = Column(Integer(), primary_key=True)
-    category = Column(String())
-    duration = Column(Integer())
-    championship_id = Column(Integer(), ForeignKey('championships.id'))
-    reviews = relationship('Review', backref=backref('match'))
+    transactionType = Column(String(255))
+
+    product_id = Column(Integer(), ForeignKey('products.id'))
 #  represent a class's objects as a string.
     def __repr__(self):
-        return f'Stadium(id={self.id}, ' + \
-            f'category={self.Title}, ' + \
-            f'duration={self.make}'
+        return f'Stadium(id={self.id}, ' 
+            
 
-# review table
-class Review(Base):
+# user table
+class User(Base):
     # table name, columns
-    __tablename__ = 'reviews'
+    __tablename__ = 'users'
 
     id = Column(Integer(), primary_key=True)
-    rating = Column(Integer())
-    match_id = Column(Integer(), ForeignKey('matches.id'))
-    wrestler_id = Column(Integer(), ForeignKey('wrestlers.id'))
+    userName = Column(Integer())
+    firstName = Column(String())
+    lastName = Column(String())
+    pnoneNo = Column(String())
     #  represent a class's objects as a string.
     def __repr__(self):
-        return f'Review(id={self.id}, ' + \
-            f'rating={self.rating},' + \
-            f'restaurant_id={self.restaurant_id})'
+        return f'User(id={self.id}, ' + \
+            f'userName={self.userName},' 
        
         
 
 
 if __name__ == '__main__':
-    engine = create_engine('sqlite:///Sports.db')
+    engine = create_engine('sqlite:///Inventory.db')
     Base.metadata.create_all(engine)
     # use our engine to configure a 'Session' class
     Session = sessionmaker(bind=engine)
     # use 'Session' class to create 'session' object
     session = Session()
 
-# CREATING WRESLERS
-    wrestler1 = Wrestler(firstName = "Dominik", lastName= " Mysterio", age= 23, gender= "M")
-    wrestler2 = Wrestler(firstName = "Humberto", lastName= " Carrillo", age= 24, gender = "M")
-    wrestler3 = Wrestler(firstName = "Liv", lastName= "Morgan", age= 26, gender= "F")
-    wrestler4 = Wrestler(firstName = "Sonya", lastName= "Deville", age = 26, gender = "F")
-    wrestler5 = Wrestler(firstName = "Angel", lastName= "Garza", age= 27, gender= "M")
-    wrestler6 = Wrestler(firstName = "Alex", lastName= "Bliss", age = 29, gender = "F")
-    wrestler7 = Wrestler(firstName = "Samy", lastName= "Zyne", age= 36, gender = "M")
-    wrestler8 = Wrestler(firstName = "Kevin", lastName = "Owen", age= 36, gender = "M")
-    wrestler9 = Wrestler(firstName = "Romain", lastName = "Reigns", age = 37, gender = "M")
-    wrestler10 = Wrestler(firstName = "Seth", lastName = "Rollins", age = 34, gender = "M")
-    wrestler11 = Wrestler(firstName = "Rey", lastName = " Mysterio", age = 48, gender = "M")
-# CREATING STADIUMS
-    stadium1 = Stadium(Title = "Bell_Centre", country = "Canada")
-    stadium2 = Stadium(Title = "AT&T", country = "USA")
-    stadium3 = Stadium(Title = "Alamodome", country = "USA")
-    stadium4 = Stadium(Title = "Altice_Arena", country = "Portugal")
-    stadium5 = Stadium(Title = "Ahoy_Rotterdam", country = "Netherlands")
-    stadium6 = Stadium(Title = "Barclays_Center", country = "USA")
-# CREATING MATCHES
-    match1 = Match(category = "ladder_match", duration = 45, championship_id = 3)
-    match2 = Match(category = "Tag_team_match", duration = 20, championship_id = 2)
-    match3 = Match(category = "Royal_Rumble", duration = 60, championship_id = 3)
-    match4 = Match(category = "Elimination_match", duration = 50, championship_id = 4)
-    match5 = Match(category = "Hell_in_cell", duration = 60, championship_id = 2)
-    match6 = Match(category = "Money_in_the_Bank", duration = 30, championship_id = 1)
-# CREATING CHAMPIONSHIPS
-    championship1 = Championship(Title = "Heavyweight", stadium_id = 1)
-    championship2 = Championship(Title = "Intercontinental", stadium_id = 4)
-    championship3 = Championship(Title = "Universal", stadium_id = 3)
-    championship4 = Championship(Title = "United States", stadium_id = 4)
-    championship5 = Championship(Title = "Tag_team", stadium_id = 5)
-# REVIEWS
-    review1 =  Review(rating = 5,match_id =4, wrestler_id = 4)
-    review2 =  Review(rating = 4,match_id =1, wrestler_id = 3 )
-    review3 =  Review(rating = 4,match_id =2, wrestler_id = 6)
-    review4 =  Review(rating = 3,match_id =4, wrestler_id = 4)
-    review5 =  Review(rating = 5,match_id =3, wrestler_id = 10)
+# CREATING products
+#     wrestler1 = Wrestler(firstName = "Dominik", lastName= " Mysterio", age= 23, gender= "M")
+#     wrestler2 = Wrestler(firstName = "Humberto", lastName= " Carrillo", age= 24, gender = "M")
+#     wrestler3 = Wrestler(firstName = "Liv", lastName= "Morgan", age= 26, gender= "F")
+#     wrestler4 = Wrestler(firstName = "Sonya", lastName= "Deville", age = 26, gender = "F")
+#     wrestler5 = Wrestler(firstName = "Angel", lastName= "Garza", age= 27, gender= "M")
+#     wrestler6 = Wrestler(firstName = "Alex", lastName= "Bliss", age = 29, gender = "F")
+#     wrestler7 = Wrestler(firstName = "Samy", lastName= "Zyne", age= 36, gender = "M")
+#     wrestler8 = Wrestler(firstName = "Kevin", lastName = "Owen", age= 36, gender = "M")
+#     wrestler9 = Wrestler(firstName = "Romain", lastName = "Reigns", age = 37, gender = "M")
+#     wrestler10 = Wrestler(firstName = "Seth", lastName = "Rollins", age = 34, gender = "M")
+#     wrestler11 = Wrestler(firstName = "Rey", lastName = " Mysterio", age = 48, gender = "M")
+# # CREATING manufacturers
+#     stadium1 = Stadium(Title = "Bell_Centre", country = "Canada")
+#     stadium2 = Stadium(Title = "AT&T", country = "USA")
+#     stadium3 = Stadium(Title = "Alamodome", country = "USA")
+#     stadium4 = Stadium(Title = "Altice_Arena", country = "Portugal")
+#     stadium5 = Stadium(Title = "Ahoy_Rotterdam", country = "Netherlands")
+#     stadium6 = Stadium(Title = "Barclays_Center", country = "USA")
+# # CREATING categories
+#     match1 = Match(category = "ladder_match", duration = 45, championship_id = 3)
+#     match2 = Match(category = "Tag_team_match", duration = 20, championship_id = 2)
+#     match3 = Match(category = "Royal_Rumble", duration = 60, championship_id = 3)
+#     match4 = Match(category = "Elimination_match", duration = 50, championship_id = 4)
+#     match5 = Match(category = "Hell_in_cell", duration = 60, championship_id = 2)
+#     match6 = Match(category = "Money_in_the_Bank", duration = 30, championship_id = 1)
+# # CREATING Transactions
+#     championship1 = Championship(Title = "Heavyweight", stadium_id = 1)
+#     championship2 = Championship(Title = "Intercontinental", stadium_id = 4)
+#     championship3 = Championship(Title = "Universal", stadium_id = 3)
+#     championship4 = Championship(Title = "United States", stadium_id = 4)
+#     championship5 = Championship(Title = "Tag_team", stadium_id = 5)
+# # USERS
+#     review1 =  Review(rating = 5,match_id =4, wrestler_id = 4)
+#     review2 =  Review(rating = 4,match_id =1, wrestler_id = 3 )
+#     review3 =  Review(rating = 4,match_id =2, wrestler_id = 6)
+#     review4 =  Review(rating = 3,match_id =4, wrestler_id = 4)
+#     review5 =  Review(rating = 5,match_id =3, wrestler_id = 10)
 
-# ADDING THE SESSION TO DATABASE AND COMMMITTING CHANGES
-    session.add_all([wrestler1, wrestler2, wrestler3,wrestler4,wrestler5,wrestler6,wrestler7,wrestler8,wrestler9,wrestler10,wrestler11])
-    session.add_all([stadium1,stadium1,stadium2,stadium3,stadium4,stadium5,stadium6])
-    session.add_all([championship1,championship2,championship3,championship4,championship5])
-    session.add_all([match1, match2, match3, match4, match5,match6])
-    session.add_all([review1,review2,review3,review4,review5])
-    session.commit()
+# # ADDING THE SESSION TO DATABASE AND COMMMITTING CHANGES
+#     session.add_all([wrestler1, wrestler2, wrestler3,wrestler4,wrestler5,wrestler6,wrestler7,wrestler8,wrestler9,wrestler10,wrestler11])
+#     session.add_all([stadium1,stadium1,stadium2,stadium3,stadium4,stadium5,stadium6])
+#     session.add_all([championship1,championship2,championship3,championship4,championship5])
+#     session.add_all([match1, match2, match3, match4, match5,match6])
+#     session.add_all([review1,review2,review3,review4,review5])
+#     session.commit()
 
 # CREATING USER MENU 
 def main():
