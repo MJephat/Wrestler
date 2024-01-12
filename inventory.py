@@ -91,7 +91,7 @@ class User(Base):
     userName = Column(Integer())
     firstName = Column(String())
     lastName = Column(String())
-    pnoneNo = Column(String())
+    phoneNo = Column(String())
     #  represent a class's objects as a string.
     def __repr__(self):
         return f'User(id={self.id}, ' + \
@@ -109,51 +109,48 @@ if __name__ == '__main__':
     session = Session()
 
 # CREATING products
-#     wrestler1 = Wrestler(firstName = "Dominik", lastName= " Mysterio", age= 23, gender= "M")
-#     wrestler2 = Wrestler(firstName = "Humberto", lastName= " Carrillo", age= 24, gender = "M")
-#     wrestler3 = Wrestler(firstName = "Liv", lastName= "Morgan", age= 26, gender= "F")
-#     wrestler4 = Wrestler(firstName = "Sonya", lastName= "Deville", age = 26, gender = "F")
-#     wrestler5 = Wrestler(firstName = "Angel", lastName= "Garza", age= 27, gender= "M")
-#     wrestler6 = Wrestler(firstName = "Alex", lastName= "Bliss", age = 29, gender = "F")
-#     wrestler7 = Wrestler(firstName = "Samy", lastName= "Zyne", age= 36, gender = "M")
-#     wrestler8 = Wrestler(firstName = "Kevin", lastName = "Owen", age= 36, gender = "M")
-#     wrestler9 = Wrestler(firstName = "Romain", lastName = "Reigns", age = 37, gender = "M")
-#     wrestler10 = Wrestler(firstName = "Seth", lastName = "Rollins", age = 34, gender = "M")
-#     wrestler11 = Wrestler(firstName = "Rey", lastName = " Mysterio", age = 48, gender = "M")
+    product1 = Product(productName = "Laptop", description= " High-performance ", QuantityInStock= 50, manufacturer_id= 1, category_id= 1)
+    product2 = Product(productName = "Smartphone", description= " 6-inch display ", QuantityInStock= 100, manufacturer_id= 2, category_id= 2)
+    product3 = Product(productName = "Printer", description= " Wireless, color ", QuantityInStock= 20, manufacturer_id= 3, category_id= 3)
+    product4 = Product(productName = "Headphones", description= " Noise-canceling ", QuantityInStock= 30, manufacturer_id= 1, category_id= 4)
+    product5 = Product(productName = "Tablet", description= " 10-inch screen ", QuantityInStock= 25, manufacturer_id= 2, category_id= 2)
+
 # # CREATING manufacturers
-#     stadium1 = Stadium(Title = "Bell_Centre", country = "Canada")
-#     stadium2 = Stadium(Title = "AT&T", country = "USA")
-#     stadium3 = Stadium(Title = "Alamodome", country = "USA")
-#     stadium4 = Stadium(Title = "Altice_Arena", country = "Portugal")
-#     stadium5 = Stadium(Title = "Ahoy_Rotterdam", country = "Netherlands")
-#     stadium6 = Stadium(Title = "Barclays_Center", country = "USA")
+    man1 = Manufacturer(Title = "ABC Electronics", contactPerson = "John Doe")
+    man2 = Manufacturer(Title = "XYZ Mobile", contactPerson = "Jane Smith")
+    man3 = Manufacturer(Title = "PrintTech", contactPerson = "Mark Jackson")
+    man4 = Manufacturer(Title = "Tech innovators", contactPerson = "Sarah Lee")
+    man5 = Manufacturer(Title = "Mega Electronics", contactPerson = "James Wong")
+
+
 # # CREATING categories
-#     match1 = Match(category = "ladder_match", duration = 45, championship_id = 3)
-#     match2 = Match(category = "Tag_team_match", duration = 20, championship_id = 2)
-#     match3 = Match(category = "Royal_Rumble", duration = 60, championship_id = 3)
-#     match4 = Match(category = "Elimination_match", duration = 50, championship_id = 4)
-#     match5 = Match(category = "Hell_in_cell", duration = 60, championship_id = 2)
-#     match6 = Match(category = "Money_in_the_Bank", duration = 30, championship_id = 1)
+    category1 = Category(categoryName = "Electronics", description = " Electronic devices ")
+    category2 = Category(categoryName = "Mobile", description = " Smartphones and tablets ")
+    category3 = Category(categoryName = "Office", description = " Office equipment ")
+    category4 = Category(categoryName = "Appliances", description = " Home appliances ")
+    category5 = Category(categoryName = "Clothing", description = " Apparel and accessories ")
 # # CREATING Transactions
-#     championship1 = Championship(Title = "Heavyweight", stadium_id = 1)
-#     championship2 = Championship(Title = "Intercontinental", stadium_id = 4)
-#     championship3 = Championship(Title = "Universal", stadium_id = 3)
-#     championship4 = Championship(Title = "United States", stadium_id = 4)
-#     championship5 = Championship(Title = "Tag_team", stadium_id = 5)
+    transaction1 = Transaction(transactionType = "Purchase", product_id = 1)
+    transaction2 = Transaction(transactionType = "Sale", product_id = 2)
+    transaction3 = Transaction(transactionType = "Return", product_id = 3)
+    transaction4 = Transaction(transactionType = "Sale", product_id = 1)
+    transaction5 = Transaction(transactionType = "Purchase", product_id = 2)
 # # USERS
-#     review1 =  Review(rating = 5,match_id =4, wrestler_id = 4)
-#     review2 =  Review(rating = 4,match_id =1, wrestler_id = 3 )
-#     review3 =  Review(rating = 4,match_id =2, wrestler_id = 6)
-#     review4 =  Review(rating = 3,match_id =4, wrestler_id = 4)
-#     review5 =  Review(rating = 5,match_id =3, wrestler_id = 10)
+    user1 =  User(userName = "admin",  firstName="Admin", lastName = "User", phoneNo="+323456788")
+    user2 =  User(userName = "staff1",  firstName="Joan", lastName = "Dough", phoneNo="+25498909093")
+    user3 =  User(userName = "staff2",  firstName="Jane", lastName = "Jones", phoneNo="+8784798357")
+    user4 =  User(userName = "user3",  firstName="Emma", lastName = "White", phoneNo="+09045874382")
+    user5 =  User(userName = "manager",  firstName="Wong", lastName = "Lee", phoneNo="+36767980")
+
+
 
 # # ADDING THE SESSION TO DATABASE AND COMMMITTING CHANGES
-#     session.add_all([wrestler1, wrestler2, wrestler3,wrestler4,wrestler5,wrestler6,wrestler7,wrestler8,wrestler9,wrestler10,wrestler11])
-#     session.add_all([stadium1,stadium1,stadium2,stadium3,stadium4,stadium5,stadium6])
-#     session.add_all([championship1,championship2,championship3,championship4,championship5])
-#     session.add_all([match1, match2, match3, match4, match5,match6])
-#     session.add_all([review1,review2,review3,review4,review5])
-#     session.commit()
+    session.add_all([product1, product2, product3, product4, product5])
+    session.add_all([category1, category2, category3, category4, category5])
+    session.add_all([man1, man2, man3, man4, man5])
+    session.add_all([transaction1, transaction2, transaction3, transaction4, transaction5])
+    session.add_all([user1, user2,user3, user4,user5])
+    session.commit()
 
 # CREATING USER MENU 
 def main():
@@ -161,17 +158,12 @@ def main():
 # use a while_loop to loop through
     choice = 0
     while choice !=10:
-        print("Welcome to the SITE!")
-        print("1) All the wrestlers")
-        print("2) Wrestler 27 years old and above ")
-        print("3) Wrestler below 27 years old ")
-        print("4) average of the rating")
-        print("5) all Stadium")
-        # print("6) order in ascending order")
-        print("7) search a wrestler")
-        print("8) search rating of certain wrestler")
-        print("9) search by id")
-        print("10) Quit ")
+        print("Welcome to our Inventory!")
+        print("1) All the products")
+        print("2) Products whose quantity in Stocks are below 50 ")
+        print("3) average of Quantity in Stock")
+        print("4) search a transaction type")
+        print("5) Quit ")
         # print("11) add into")
 # prompt the user to type an input.
         choice = int(input())
@@ -179,79 +171,46 @@ def main():
 
 # returns a LIST
         if choice == 1:
-            print("***All wrestlers***")
-            wrestlers = session.query(Wrestler).all()
-            for wrestler in wrestlers:
-                print([wrestler.firstName + ' '+ wrestler.lastName])
+            print("***All Products***")
+            products = session.query(Product).all()
+            for product in products:
+                print([product.productName + ' '+ product.description ])
 
 #  returns a list of filtered data
         elif choice == 2:
-            print("****wrestler above 27 years old*****")
-            wrestlers = session.query(Wrestler).filter( Wrestler.age >= 27)
-            for wrestler in wrestlers:
-                print(wrestler.firstName + ' '+ wrestler.lastName)
+            print("****Products whose Quantity in stocks are below 50*****")
+            products = session.query(Product).filter( Product.QuantityInStock < 50)
+            for product in products:
+                print(product.productName, product.QuantityInStock )
                 
+        
+# calculates the average quantity
         elif choice == 3:
-            print("****Wrestler below 27 years old****")
-            
-            wrestlers = session.query(Wrestler).filter( Wrestler.age < 27)
-            for wrestler in wrestlers:
-                print(wrestler.firstName + ' '+ wrestler.lastName)
-       
-# calculates the average reviews
-        elif choice == 4:
-            print("****Printing Average Rating****")
-            hello = average_rating = session.query(func.avg(Review.rating)).scalar()
-            print(" AVERAGE RATE IS" + " " +  str(hello))    
+            print("****Printing Average quantity in stock****")
+            hello = average_stock = session.query(func.avg(Product.QuantityInStock)).scalar()
+            print(" AVERAGE QUANTITY IN STOCK IS" + " " +  str(hello))    
 
-        # Edited
-        elif choice == 5:
-            print("****All the stadium and the countries ****")
-            stadiums = session.query(Stadium).all()
-            for stadium in stadiums:
-                print("Title:",  stadium.Title, "Country:", stadium.country)
-
-        # elif choice == 6:
-        #     list1 = session.query(Review).order(Review.rating)
-        #     for review in list1:
-        #         print(list1)
 
 # returns a tuple
-        elif choice == 7:
-            print ("****Select wresler of choice****")
-            user_input = input("Enter the wrestler.lastName:")
-            wrestlers = session.query(Wrestler).filter(Wrestler.lastName == user_input)
+        elif choice == 4:
+            print ("****Searching for transaction type****")
+            user_input = input("Enter the transaction type:")
+            transactions = session.query(Transaction).filter(Transaction.transactionType == user_input)
            
-            for wrestler in wrestlers:
-              print (("id:", wrestler.id, "Name:", wrestler.firstName, wrestler.lastName, "Age:", wrestler.age, "Gender:", wrestler.gender))
-        
-        elif choice == 8:
-            print ("****Select rating of a wrestler****")
-            user_input = input("Enter the wrestles id:")
-            wrestlers = session.query(Review).filter(Review.wrestler_id == user_input)
-            for review in wrestlers:
-              print("id:", review.id, "rating:", review.rating)  
+            for transaction in transactions:
+              print (("id:", transaction.id, "Name:", transaction.transactionType ))
 
-        elif choice == 9:
-            print("*****select by id****")
-            my_user = session.get(Match,6)
-            print(my_user.category)
+        
+        
 #  quit
-        elif choice == 10:
+        elif choice == 5:
             print("You have left the main Menu")
             print("to get back to the main Menu type: python3 main.py")
 
-        # elif choice == 11:
-        #     print("***Add into***")
-        #     sinput = input("Enter the stadium, country:")
-        #     # stadiums = session.query(Stadium).
-        #     stadiums = Stadium(Stadium.Title==sinput, Stadium.country==sinput)
-            
-        #     session.add_all(stadiums)
-        #     # session.add_all( Stadium.Title,Stadium.country)
-        #     session.commit()
+        else:
+            print("Incorrect input")
 
-
+      
 
 # calling the function
 if __name__ == "__main__":
